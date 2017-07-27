@@ -8,9 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $fillable = [
+        'brand_id',
+        'category_id',
         'code',
         'title',
         'price',
-        'quantity'
+        'quantity',
     ];
+
+    public function feedItems()
+    {
+        return $this->hasMany(\App\Models\Core\ExecutionFeedItem::class);
+    }
 }

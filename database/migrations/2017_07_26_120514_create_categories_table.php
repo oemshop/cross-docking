@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateExecutionFeedsTable extends Migration
+class CreateCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateExecutionFeedsTable extends Migration
      */
     public function up()
     {
-        Schema::create('execution_feeds', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('execution_id')->nullable()->unsigned();
-            $table->string('type');
+            $table->bigInteger('parent_id')->nullable()->unsigned();
             $table->string('title');
-            $table->text('message');
             $table->timestamps();
-            $table->foreign('execution_id')->references('id')->on('executions')->onDelete('cascade');
+            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 
@@ -31,6 +29,6 @@ class CreateExecutionFeedsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('execution_feeds');
+        Schema::dropIfExists('categories');
     }
 }

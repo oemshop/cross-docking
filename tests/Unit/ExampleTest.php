@@ -12,13 +12,12 @@ class ExampleTest extends TestCase
 
     public function testBasicTest()
     {
-        $hayamax = new \App\CrossDocking\Providers\Hayamax();
-        $hayamax->process();
-
-        die('acabou');
-
-        dd(\App\Models\Core\Provider::all());
-        dd(\App\Models\Core\Execution::with(['feeds', 'feeds.items'])->get()->toArray());
-        dd(\App\Models\Catalog\Product::all());
+        $this->assertEquals(true, true);
+        // $hayamax = new \App\CrossDocking\Providers\Hayamax();
+        // $hayamax->process();
+        //
+        // dd(\App\Models\Catalog\Product::all());
+        // dd(\App\Models\Core\Provider::all());
+        // dd(\App\Models\Core\Execution::with(['feeds', 'feeds.items'])->get()->toArray());
     }
 }

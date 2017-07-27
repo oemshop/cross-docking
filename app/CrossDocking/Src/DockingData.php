@@ -2,6 +2,9 @@
 
 namespace App\CrossDocking\Src;
 
+use App\Models\Catalog\Brand;
+use App\Models\Catalog\Category;
+
 class DockingData
 {
     /**
@@ -61,6 +64,9 @@ class DockingData
 
     public function toArray()
     {
+        $this->data['brand_id'] = Brand::saveIfNotExists($this->data['brand'])->id;
+        $this->data['category_id'] = Category::saveIfNotExists($this->data['category']);
+
         return $this->data;
     }
 }

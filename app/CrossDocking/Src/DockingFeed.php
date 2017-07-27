@@ -19,24 +19,32 @@ class DockingFeed
     public function sync(array $oldData, Product $product)
     {
         if (count($oldData) == 0) {
-            return $this->makeFeed('S', 'Inserido', 'Novos produtos cadastrados', $product->id);
+            $this->makeFeed('INSERT', 'Inserido', 'Novos produtos cadastrados', $product->id);
+
+            return $this->execution->feeds()->get();
         }
 
         if ($oldData['price'] < $product->price) {
-            $this->makeFeed('W', 'Aumento de custo', 'Produtos estão mais caros', $product->id);
+            $this->makeFeed('COST_UP', 'Aumento de custo', 'Produtos estão mais caros', $product->id);
         }
 
         if ($oldData['price'] > $product->price) {
-            $this->makeFeed('W', 'Redução de custo', 'Produtos estão mais baratos', $product->id);
+            $this->makeFeed('COST_DOWN', 'Redução de custo', 'Produtos estão mais baratos', $product->id);
         }
 
         if ($oldData['quantity'] > 0 && $product->quantity == 0) {
-            $this->makeFeed('W', 'Estoque esgotado', 'Produtos sem estoque', $product->id);
+            $this->makeFeed('OUT_OF_STOCK', 'Estoque esgotado', 'Produtos sem estoque', $product->id);
         }
 
         if ($oldData['quantity'] == 0 && $product->quantity > 0) {
-            $this->makeFeed('W', 'Estoque renovado', 'Produtos novamente com estoque', $product->id);
+            $this->makeFeed('IN_STOCK', 'Estoque renovado', 'Produtos novamente com estoque', $product->id);
         }
+
+        if ($oldData == $product->toArray()) {
+            $this->makeFeed('NONE', 'Nenhuma alteração', 'Produtos sem nenhuma alteração', $product->id);
+        }
+
+        return $this->execution->feeds()->get();
     }
 
     protected function makeFeed($type, $title, $message, $productId = null)
