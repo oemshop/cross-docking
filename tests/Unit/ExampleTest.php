@@ -13,9 +13,9 @@ class ExampleTest extends TestCase
     public function testBasicTest()
     {
         $hayamax = new \App\CrossDocking\Providers\Hayamax();
-        $hayamax->download();
+        $hayamax->process();
 
-        die('oi');
+        die('acabou');
 
         dd(\App\Models\Core\Provider::all());
         dd(\App\Models\Core\Execution::with(['feeds', 'feeds.items'])->get()->toArray());
